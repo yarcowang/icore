@@ -124,7 +124,7 @@ class Application extends SingletonClass
 			$this->router->action = $action; // for __destruct, but need action name in headers
 
 		// is cached?
-		$isCached = PageCache::get()->isCached();				
+		$isCached = cache\PageCache::get()->isCached();				
 
 		$obj = new $class;
 		if (!$isCached && $method !== '__destruct' && method_exists($obj, $method))

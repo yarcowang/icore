@@ -73,13 +73,13 @@ class Module
 				;
 		}
 
-		$pc = PageCache::get();
+		$pc = cache\PageCache::get();
 		if (!$pc->isCached())
 		{
 			// TODO: get views from database
 
 			// page view
-			$view = new \icore\views\PageView;
+			$view = new views\PageView;
 			$view->setData(array('title_more' => $this->_title_more,
 				'keywords_more' => $this->_keywords_more,
 				'description_more' => $this->_description_more,

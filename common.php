@@ -32,6 +32,112 @@ function url($region = null, $module = null, $action = null, $args = array(), $e
 {
 	return \icore\Application::get()->router->makeUrl($region, $module, $action, $args, $entry, $lang);
 }
+
+function js($url = null)
+{
+	static $buff;
+	static $tpl1 = "<script type=\"text/javascript\" src=\"__SRC__\"></script>\n";
+	static $tpl2 = '<script type="text/javascript">__JS__</script>';
+
+	$compress_js = isset(\icore\Application::get()->vars['compress_js']) && !empty(\icore\Application::get()->vars['compress_js']) ? intval(\icore\Application::get()->vars['compress_js']) : 0;
+	
+	if (!empty($url))
+	{
+		if ($compress_js)
+			$buff[] = $url;
+		else
+			return str_replace('__SRC__', $url, $tpl1);
+	}
+	else
+	{
+		if ($compress_js)
+		{
+			$key = VAR_CACHE_DIR . '/js_' . md5(CONFIG_FILE . serialize($buff));
+			$obj = \icore\cache\JsCache::get();
+			$obj->setKey($key);
+			if (!$obj->isCached())
+			{
+				$string = '';
+				foreach($buff as $url)
+				{
+					if (substr($url, 0, 4) === 'http')
+					{
+						$string .= file_get_contents($url);
+					}
+					else
+					{
+						$string .= file_get_contents(DRIVER_DIR . '/' . $url);
+					}
+				}
+				$obj->saveCache($string);
+			}
+			return str_replace('__JS__', $obj->get_contents(), $tpl2);
+		}
+		else
+		{
+			return '';
+		}
+	}
+}
+
+function css($url = null, $media = 'all')
+{
+	static $buff;
+	static $tpl1 = "<link rel=\"stylesheet\" type=\"text/css\" href=\"__HREF__\" media=\"__MEDIA__\" />\n";
+	static $tpl2 = "<style type=\"text/css\" media=\"__MEDIA__\">__CSS__</style>";
+
+	$compress_css = isset(\icore\Application::get()->vars['compress_css']) && !empty(\icore\Application::get()->vars['compress_css']) ? intval(\icore\Application::get()->vars['compress_css']) : 0;
+
+	if (!empty($url))
+	{
+		if ($compress_css)
+		{
+			if (!isset($buff[$media]))
+			{
+				$buff[$media] = array();
+			}
+			$buff[$media][] = $url;
+		}
+		else
+			return str_replace(array('__HREF__', '__MEDIA__'), array($url, $media), $tpl1);
+	}
+	else
+	{
+		if ($compress_css)
+		{
+			$t = '';
+			foreach($buff as $media => $urls)
+			{
+				$key = VAR_CACHE_DIR . '/css_' . md5(CONFIG_FILE . serialize($urls));
+				$obj = \icore\cache\CssCache::get();
+				$obj->setKey($key);
+				if (!$obj->isCached())
+				{
+					$string = '';
+					foreach($urls as $url)
+					{
+						if (substr($url, 0, 4) === 'http')
+						{
+							$string .= file_get_contents($url);
+						}
+						else
+						{
+							$string .= file_get_contents(DRIVER_DIR . '/' . $url);
+						}
+					}
+					$obj->saveCache($string);
+				}
+				$t .= str_replace(array('__MEDIA__', '__CSS__'), array($media, $obj->get_contents()), $tpl2);
+			}
+			return $t;
+		}
+		else
+		{
+			return '';
+		}
+	}
+}
+
 /*
 function i(\icore\Views $obj, $key, $default = null)
 {

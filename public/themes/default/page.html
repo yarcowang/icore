@@ -5,28 +5,30 @@
 <title><?= $this->sitename; ?><?= $this->title_more; ?></title>
 <meta name="keywords" content="<?= $this->keywords; ?><?= $this->keywords_more; ?>" />
 <meta name="description" content="<?= $this->description; ?><?= $this->description_more; ?>" />
-<script type="text/javascript" src="lib/jquery/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="lib/icore/grid.js"></script>
+<?= js('lib/jquery/jquery-1.6.2.min.js'); ?>
+<?= js('lib/icore/grid.js'); ?>
+<?= js(); ?>
 <script type="text/javascript">
 	var gridedit_url = '<?= url($this->region, 'home', 'gridedit', array(), 'json'); ?>';
 </script>
-<link rel="stylesheet" type="text/css" href="lib/grid.css/html/all.css" />
-<link rel="stylesheet" type="text/css" href="lib/grid.css/html/grid960.css" />
-<link rel="stylesheet" type="text/css" href="themes/<?= $this->theme; ?>/style.css" />
+<?= css('lib/grid.css/html/all.css'); ?>
+<?= css('lib/grid.css/html/grid960.css'); ?>
+<?= css('themes/' . $this->theme . '/style.css'); ?>
+<?= css(); ?>
 </head>
 <body>
 <!-- header -->
-<div id="header">
+<header>
 	<div class="container_12 clearfix">
 <?= $this->regions[0]; ?>
 	</div>
-</div>
+</header>
 <!-- nav -->
-<div id="nav">
+<nav>
 	<div class="container_12 clearfix">
 <?= $this->regions[1]; ?>
 	</div>
-</div>
+</nav>
 <!-- main -->
 <div id="main">
 	<div class="container_12 clearfix">
@@ -34,10 +36,10 @@
 	</div>
 </div>
 <!-- footer -->
-<div id="footer">
+<footer>
 	<div class="container_12 clearfix">
 <?= $this->regions[3]; ?>
 	</div>
-</div>
+</footer>
 </body>
 </html>
