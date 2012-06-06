@@ -17,6 +17,12 @@ abstract class Views extends SingletonClass
 		return __FILE__;
 	}
 
+	public function __construct()
+	{
+		// each view needs a name
+		$this->name = '';
+	}
+
 	public function __get($key)
 	{
 		return isset($this->_data[$key]) ? $this->_data[$key] : null;

@@ -18,7 +18,7 @@ class PageCache extends SingletonClass
 		$this->_app = Application::get();
 
 		// cache file
-		$this->_file = VAR_CACHE_DIR . '/' . md5(CONFIG_FILE . serialize($_GET));
+		$this->_file = VAR_CACHE_DIR . '/pagecache_' . md5(CONFIG_FILE . serialize($_GET));
 	}
 
 	public function isCached()

@@ -11,15 +11,20 @@ class install extends Module
 	{
 		parent::__construct();
 
+		// page related
+		$this->_title_more = 'iCore - install process';
+
 		// logo
 		$view = new \icore\views\BlockView;
-		$view->setData(array('name' => 'logo', 'title' => 'Install iCore')); // END HERE
+		$view->setData(array('content' => 'iCore')); 
 		$this->addView(0, $view);
-
+		
+		/* TODO: menu view
 		// menu
 		$view = new \icore\views\BlockView;
 		$view->setData(array('name' => 'install-menu'));
 		$this->addView(1, $view);
+		*/
 
 		// copyright
 		$v = ICORE_VERSION;
@@ -38,15 +43,12 @@ EOF
 		$view = new \icore\views\BlockView;
 		$view->setData(array('name' => 'install', 'title' => 'Introduction',
 			'content' => <<<EOF
-			<p>iCore is a php framework or CMS (short for content management system) for fast website building.</p>
+			<p>iCore is a php framework/CMS for fast website building and <b>for future (good for html5,php5.4 etc)</b>.</p>
 			<p>It is something like drupal, but small and simple.</p>
 			<br />
-			<p><b>Since it uses file links, it may only works on *nix.</b></p>
-			<br />
-			<p>It begins from 2007 (maybe), a simple php framework called Coto. Coto is just a simple framework like CI, but never really used.</p>
-			<p>After touch drupal, the idea of "simple drupal" comes up. But it is still a hard work.</p>
-			<p>After finish a simple project of my friend, i merged all things together. That is this framework or you can call it "iCore CMS".</p>
-			<p>The idea of the name "iCore" is original from apple's i-series. Apple is really a reputable company in my eyes.</p>
+			<p>It begins from 2007 (maybe, i forget), a simple php framework called Coto. But it was never really used.</p>
+			<p>When touch drupal, the idea of a "simple drupal" comes up. But it still remains a hard work.</p>
+			<p>After finish a simple project, i merged all together. That is the framework you see, or you can call it "iCore CMS".</p>
 EOF
 		, 'links' => array(array('href' => url(null, null, 'license'), 'class' => 'more', 'title' => 'license'))
 		));
@@ -56,26 +58,27 @@ EOF
 	public function license()
 	{
 		$view = new \icore\views\BlockView;
-		$view->name = 'install';
-		$view->title = 'License';
-		$view->content = <<<EOF
+		$view->setData(array('name' => 'install', 'title' => 'License',
+			'content' => <<<EOF
 			<p>iCore may include several libraries like jquery, tiny_mce etc under lib/. They are not a part of this framework.</p>
 			<br />
-			<p>This framework has Dual Licenses like Qt. One for personal(GPL), One for commercial.</p>
+			<p>This framework which under core/ has Dual Licenses like Qt. One for personal(GPL), One for commercial.</p>
 			<blockquote>THERE IS NO WARRANTY FOR THIS FRAMEWORK.</blockquote>
 			<br />
 			<p>If any suggestion, you could contact contact@green-apple.mobi.</p>
-			<p>All rights reserved by GREEN APPLE TECH LIMITED (青澀蘋果有限公司) from 2011.</p>
-EOF;
-		$view->links = array(
+			<p>All rights reserved by GREEN APPLE TECH LIMITED from 2011.</p>
+EOF
+		, 'links' => array(
 			array('href' => './', 'class' => 'more', 'title' => 'prev'),
 			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'checking')
-		);
+			)
+		));
 		$this->addView(2, $view);
 	}
 
 	public function check()
 	{
+		/*
 		$options = array();
 		$options['headers'] = array('title' => 'Title', 'result' => 'Result', 'required' => 'Required');
 		$options['records'] = array();
@@ -89,6 +92,8 @@ EOF;
 		$item['title'] = 'PHP Version';
 		$item['result'] = PHP_VERSION;
 		$item['required'] = '>=5.3';
+
+		// short open tag before 5.4
 
 		$item = & $options['records'][];
 		$item['title'] = 'var/config';
@@ -108,6 +113,7 @@ EOF;
 		$view->title = 'Checking';
 		$view->data = $options;
 		$this->addView(2, $view);	
+		*/
 	}
 
 	public function setting()

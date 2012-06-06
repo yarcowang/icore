@@ -8,8 +8,7 @@ class BlockView extends Views
 {
 	public function __construct()
 	{
-		// block view has a name
-		$this->name = '';
+		parent::__construct();
 
 		// default attributes 
 		$this->title = '';

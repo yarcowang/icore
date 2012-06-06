@@ -3,12 +3,16 @@ iCore PHP CMS/Framework
 
 Notice!!!
 ---------
-Currently it is under construction, no product version currently is valid.
+Currently it is under construction, no product version is valid.
 
 What's This?
 ------------
-This is a php framework(or you can call it "cms") by [yarco][me].
-Focus on simple/fast/customized web app creating.
+iCore is a php framework/CMS for fast website building and for future (good for html5,php5.4 etc) by [yarco][me].
+It is something like drupal, but small and simple.
+
+It begins from 2007 (maybe, i forget), a simple php framework called Coto. But it was never really used.
+When touch drupal, the idea of a "simple drupal" comes up. But it still remains a hard work.
+After finish a simple project, i merged all together. That is the framework you see, or you can call it "iCore CMS".
 
 How To Use?
 ---------------

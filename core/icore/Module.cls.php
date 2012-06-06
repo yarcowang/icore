@@ -20,6 +20,12 @@ class Module
 	protected $_module;
 	protected $_action;
 
+	// extra for page
+	protected $_title_more;
+	protected $_keywords_more;
+	protected $_description_more;
+	
+
 	public function __construct()
 	{
 		$this->_app = Application::get();
@@ -74,7 +80,11 @@ class Module
 
 			// page view
 			$view = new \icore\views\PageView;
-			$view->setData(array('regions' => $this->_data));
+			$view->setData(array('title_more' => $this->_title_more,
+				'keywords_more' => $this->_keywords_more,
+				'description_more' => $this->_description_more,
+				'regions' => $this->_data
+			));
 			$contents = $view->get_contents();
 			$pc->saveCache($contents);
 		}
