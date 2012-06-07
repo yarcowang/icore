@@ -15,13 +15,13 @@ define('ICORE_USER_PHRASE', 4);
 class Application extends SingletonClass
 {
 	// runtime information
-  public $state = ICORE_BOOT_PHRASE;
+	public $state = ICORE_BOOT_PHRASE;
 	public $vars = array();
 
 	// components
-  public $db;
-  public $router;
-  public $user;
+	public $db;
+	public $router;
+	public $user;
 
 	// class static methods
 	protected static function & _instance_()
@@ -30,18 +30,18 @@ class Application extends SingletonClass
 		return $instance;
 	}
 
-  public static function run()
-  {
-    $app = Application::get();
-    $app->loadConfig();
-    $app->execute();
-  }
+	public static function run()
+	{
+		$app = Application::get();
+		$app->loadConfig();
+		$app->execute();
+	}
 
-  // load config
-  public function loadConfig()
-  {
-    if (file_exists(CONFIG_FILE))
-    {
+	// load config
+	public function loadConfig()
+	{
+		if (file_exists(CONFIG_FILE))
+		{
 			/*
       include_once CONFIG_FILE;
       $this->vars = $config;

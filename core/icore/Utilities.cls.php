@@ -148,6 +148,25 @@ class Utilities
 	}
 
 	/**
+	 * get an item from an array which has priority level
+	 *
+	 * @param array ex. array('A' => 1, 'B' => 5, 'C' => 3)
+	 * @return string 'A' in 1/9 chance, 'B' in 5/9 chance, 'C' in 3/9 chance
+	 */
+	public static function array4priority(array $array)
+	{
+		$t = array_sum($array);
+		$t = rand(1, $t);
+
+		foreach($array as $key => $value)
+		{
+			if ($t <= $value)
+				return $key;
+			$t -= $value;
+		}
+	}
+
+	/**
 	 * a simple timer
 	 */
 	public static function timer()

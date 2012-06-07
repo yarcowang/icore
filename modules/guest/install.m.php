@@ -78,7 +78,7 @@ EOF
 
 	public function check()
 	{
-		/*
+		/* TODO: grid view
 		$options = array();
 		$options['headers'] = array('title' => 'Title', 'result' => 'Result', 'required' => 'Required');
 		$options['records'] = array();
@@ -118,20 +118,22 @@ EOF
 
 	public function setting()
 	{	
+		/* TODO: form view
 		$view = new \icore\views\BlockView;
 		$view->name = 'install-settings';
 		$this->addView(2, $view);	
+		*/
 	}
 
 	public function result()
-	{
+	{// END HERE
 		if (!empty($_POST))
 		{
 			// install process
 			$db = & \icore\Application::get()->db;
 			$db = \icore\DB::get($_POST['driver'])->init($_POST);
 
-			// TODO: may use model
+			// TODO: would use model in future
 
 			// mysql
 			$ret = $db->exec(file_get_contents(VAR_DIR . '/mysql.sql'));
