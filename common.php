@@ -23,6 +23,7 @@ spl_autoload_register();
 // var directories
 define('VAR_DIR', ROOT_DIR . '/var');
 define('VAR_MODELS_DIR', VAR_DIR . '/models');
+define('VAR_SQLS_DIR', VAR_DIR . '/sqls');
 define('VAR_CACHE_DIR', VAR_DIR . '/cache');
 define('VAR_CONFIGS_DIR', VAR_DIR . '/configs');
 // ...
