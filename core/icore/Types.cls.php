@@ -7,6 +7,10 @@ class Types extends SingletonClass
 	protected $_types = array();
 	protected $_validators = array();
 
+	// form element
+	protected $_html = array();
+	// TODO: protected $_html5 = array();
+
 	public function getTypes()
 	{
 		return $this->_types;
@@ -16,6 +20,32 @@ class Types extends SingletonClass
 	{
 		$this->init();
 	}
+
+	public function validate($type, $value, $extra = '')
+	{
+		if (!isset($this->_validators[$type]) || empty($this->_validators[$type]))
+			return false;
+
+		return call_user_func_array($this->_validators[$type], array($value, $extra));
+	}
+
+	public function html($name, $type, $extra = '', $default = '')
+	{
+		if (!isset($this->_html[$type]) || empty($this->_html[$type]))
+			return '';
+
+		return call_user_func_array($this->_html[$type], array($name, $extra, $default));
+	}
+
+	/*
+	public function html5($name, $type, $extra = '', $default = '')
+	{
+		if (!isset($this->_html5[$type]) || empty($this->_html5[$type]))
+			return '';
+
+		return call_user_func_array($this->_html5[$type], array($name, $extra, $default));
+	}
+	*/
 
 	protected function init()
 	{
@@ -54,14 +84,111 @@ class Types extends SingletonClass
 		$validators['time'] = create_function('$v,$e=""', 'return true;'); // TODO: time
 		$validators['title'] = create_function('$v,$e=""', 'if (!empty($e) && strlen($v)>$e) return false; return true;');
 		$validators['tree'] = create_function('$v,$e=""', 'return true;'); // TODO: tree
-	}
 
-	public function validate($type, $value, $extra = '')
-	{
-		if (!isset($this->_validators[$type]) || empty($this->_validators[$type]))
-			return false;
+		// html
+		$html = & $this->_html;
+		$html['enum'] = create_function('$n,$e="",$d=""', '$e=explode(",");
+$opts = "";
+foreach($e as $i)
+{
+	$opts .= sprintf("\t<option value=\"%s\"%s>%s</option>\n", htmlspecialchars($i), $d == $i ? " selected=\"selected\"" : "", htmlspecialchars($i));
+}
+return sprintf(<<<EOF
+<select name="%s" id="%s">
+	%s
+</select>\n
+EOF, $n, $n, $opts);');
+		$html['file'] = create_function('$n,$e="",$d=""', ''); // TODO: file 
+		$html['float'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 20;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="20" maxlength="%d" />\n
+EOF, $n, $n, $d, %e);');
+		$html['image'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: image
+		$html['int'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 20;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="20" maxlength="%d" />\n
+EOF, $n, $n, $d, %e);');
+		$html['mail'] = create_function('$n, $e="", $d=""', 'return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="40" maxlength="40" />\n
+EOF, $n, $n, htmlspecialchars($d));');
+		$html['name'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 40;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="40" maxlength="%d" />\n
+EOF, $n, $n, $d, %e);');
+		$html['owner'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: owner
+		$html['password'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 40;
+return sprintf(<<<EOF
+<input type="password" name="%s" id="%s" size="40" maxlength="%d" />\n
+EOF, $n, $n, %e);');
+		$html['ref'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: ref
+		$html['string'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 200;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="80" maxlength="%d" />\n
+EOF, $n, $n, htmlspecialchars($d), %e);');
+		$html['text'] = create_function('$n, $e="", $d=""', 'return sprintf(<<<EOF
+<textarea name="%s" id="%s" cols="80" rows="%d">
+$e
+</textarea>\n
+EOF, $n, $n, $e, htmlspecialchars($d));');
+		$html['time'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: time
+		$html['title'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 200;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="80" maxlength="%d" />\n
+EOF, $n, $n, htmlspecialchars($d), %e);');
+		$html['tree'] = create_function('$v,$e=""', 'return true;'); // TODO: tree
 
-		return call_user_func_array($this->_validators[$type], array($value, $extra));
+		/*
+		$html5 = & $this->_html5;
+		$html5['enum'] = create_function('$n,$e="",$d=""', '$e=explode(",");
+$opts = "";
+foreach($e as $i)
+{
+	$opts .= sprintf("\t<option value=\"%s\"%s>%s</option>\n", htmlspecialchars($i), $d == $i ? " selected=\"selected\"" : "", htmlspecialchars($i));
+}
+return sprintf(<<<EOF
+<select name="%s" id="%s">
+	%s
+</select>\n
+EOF, $n, $n, $opts);');
+		$html5['file'] = create_function('$n,$e="",$d=""', ''); // TODO: file 
+		$html5['float'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 20;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="20" maxlength="%d" />\n
+EOF, $n, $n, $d, %e);');
+		$html5['image'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: image
+		$html5['int'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 20;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="20" maxlength="%d" />\n
+EOF, $n, $n, $d, %e);');
+		$html5['mail'] = create_function('$n, $e="", $d=""', 'return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="40" maxlength="40" />\n
+EOF, $n, $n, htmlspecialchars($d));');
+		$html5['name'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 40;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="40" maxlength="%d" />\n
+EOF, $n, $n, $d, %e);');
+		$html5['owner'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: owner
+		$html5['password'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 40;
+return sprintf(<<<EOF
+<input type="password" name="%s" id="%s" size="40" maxlength="%d" />\n
+EOF, $n, $n, %e);');
+		$html5['ref'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: ref
+		$html5['string'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 200;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="80" maxlength="%d" />\n
+EOF, $n, $n, htmlspecialchars($d), %e);');
+		$html5['text'] = create_function('$n, $e="", $d=""', 'return sprintf(<<<EOF
+<textarea name="%s" id="%s" cols="80" rows="%d">
+$e
+</textarea>\n
+EOF, $n, $n, $e, htmlspecialchars($d));');
+		$html5['time'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: time
+		$html5['title'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 200;
+return sprintf(<<<EOF
+<input type="text" name="%s" id="%s" value="%s" size="80" maxlength="%d" />\n
+EOF, $n, $n, htmlspecialchars($d), %e);');
+		$html5['tree'] = create_function('$v,$e=""', 'return true;'); // TODO: tree
+		*/
 	}
 }
 

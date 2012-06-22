@@ -106,6 +106,15 @@ class Model implements \ArrayAccess
 			unset($this->data[$offset]);
 		}	
 	}
+
+	/**
+	 * field to form element
+	 */
+	public function ui($field, $default = '', $callback = 'html')
+	{
+		$types = Types::get();
+		return $types->html($field, $this->_fieldType[$field], $this->_fieldExtra[$field], $default);
+	}
 	
 	/**
 	 * fetch one record
