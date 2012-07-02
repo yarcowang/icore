@@ -31,7 +31,6 @@ abstract class Cache extends SingletonClass
 	{
 		$time = isset($this->_app->vars['page_cache_time']) ? time() - Utilities::string2seconds($this->_app->vars['page_cache_time']) : time();
 		return file_exists($this->_key) && filemtime($this->_key) > $time;
-
 	}
 
 	public function saveCache(& $string)
