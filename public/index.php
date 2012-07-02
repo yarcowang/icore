@@ -1,8 +1,14 @@
 <?php
+// check php version
+if (!version_compare(phpversion(), '5.3', '>='))
+{
+	die('php version must >= 5.3');
+}
+
 // define driver
-define('DRIVER_FILE', $_SERVER['SCRIPT_FILENAME']);
 define('DRIVER_URI', $_SERVER['SCRIPT_NAME']);
 define('DRIVER_DIR', __DIR__);
+define('DRIVER_FILENAME', basename($_SERVER['SCRIPT_FILENAME']));
 
 // DEFAULTS
 define('DEFAULT_ENTRY', 'html');
