@@ -49,7 +49,9 @@ class BasicRouter extends Router
 				$ret .= $k . '=' . rawurlencode($v) . '&';
 			}
 		}
-		return substr($ret, 0, -1);
+
+		// if driver name is not index.php
+		return substr(DRIVER_URI, -9) === 'index.php' ? substr($ret, 0, -1) : DRIVER_URI . substr($ret, 0, -1);
 	}
 }
 
