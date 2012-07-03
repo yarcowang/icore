@@ -1,0 +1,52 @@
+<div class="grid_12">
+	<div class="block block-<?= $this->name; ?>">
+		<div class="block-header"><?= $this->title; ?></div>
+		<div class="block-body">
+			<table>
+				<thead>
+					<tr>
+					<?php
+						$n = count($this->headers);
+						foreach($this->headers as $title)
+						{
+					?>
+						<th><?= $title; ?></th>
+					<?php
+						}
+					?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+						foreach($this->records as $record)
+						{
+					?>
+					<tr>
+						<?php
+							foreach($record as $k => $v)
+							{
+						?>
+						<td><?= $v; ?></td>
+						<?php
+							}
+						?>
+					</tr>
+					<?php
+						}
+					?>
+				</tbody>
+			</table>
+				
+
+		</div>
+		<div class="block-footer">
+			<!-- links -->
+			<?php foreach($this->links as $link) { ?>
+				<a href="<?= $link['href']; ?>" class="<?= $link['class']; ?>"><?= $link['title']; ?></a>	
+			<?php } ?>
+			<span class="msg">
+				<?= $this->msg; ?>
+			</span>
+		</div>
+	</div>
+</div>

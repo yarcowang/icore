@@ -25,8 +25,8 @@ class install extends Module
 		$view->records = array(
 			array('href' => 'javascript:void(0)', 'title' => 'About',  'level' => 1),
 			array('href' => 'javascript:void(0)', 'title' => 'License', 'level' => 1),
-			array('href' => 'javascript:void(0)', 'title' => 'Check', 'level' => 1),
-			array('href' => 'javascript:void(0)', 'title' => 'Setting', 'level' => 1),
+			array('href' => 'javascript:void(0)', 'title' => 'Checking', 'level' => 1),
+			array('href' => 'javascript:void(0)', 'title' => 'Settings', 'level' => 1),
 			array('href' => 'javascript:void(0)', 'title' => 'Result', 'level' => 1),
 		);
 		$this->addView(1, $view);
@@ -86,16 +86,10 @@ EOF
 	{
 		$view = new \icore\views\GridView;	
 		
+		$view->name = 'install';
 		$view->title = 'Checking';
 		$view->headers = array('title' => 'Title', 'result' => 'Result', 'required' => 'Required');
 		$view->records = array();
-
-		/*
-		$item = & $view->records[];
-		$item['title'] = 'OS';
-		$item['result'] = PHP_OS;
-		$item['required'] = '*nix like';
-		*/
 
 		$item = & $view->records[];
 		$item['title'] = 'PHP Version';
@@ -106,7 +100,7 @@ EOF
 		if (!version_compare(PHP_VERSION, '5.4', '>='))
 		{
 			$item = & $view->records[];
-			$item['title'] = 'Short Open Tag';
+			$item['title'] = 'ShortOpenTag';
 			$item['result'] = ini_get('short_open_tag') ? 'on' : 'off';
 			$item['required'] = 'on';
 		}
@@ -116,7 +110,7 @@ EOF
 		$item['result'] = is_writable(dirname(CONFIG_FILE)) ? 'writable' : 'not writable';
 		$item['required'] = 'writable';
 
-		foreach(array('pdo', 'pdo_mysql', 'json', 'gd') as $ext)
+		foreach(array('pdo', 'json', 'gd') as $ext)
 		{
 			$item = & $view->records[];
 			$item['title'] = $ext;
@@ -125,8 +119,8 @@ EOF
 		}
 
 		$view->links = array(
-			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'prev'),	
-			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'settings')			
+			array('href' => url(null, null, 'license'), 'class' => 'more', 'title' => 'prev'),	
+			array('href' => url(null, null, 'setting'), 'class' => 'more', 'title' => 'settings')			
 		);
 
 		$this->addView(2, $view);
