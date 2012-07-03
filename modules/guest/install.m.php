@@ -12,19 +12,24 @@ class install extends Module
 		parent::__construct();
 
 		// page related
-		$this->_title_more = 'iCore - install process';
+		$this->_title_more = 'iCore CMS - install process';
 
 		// logo
 		$view = new \icore\views\BlockView;
-		$view->setData(array('content' => 'iCore')); 
+		$view->setData(array('name' => 'logo', 'content' => 'iCore')); 
 		$this->addView(0, $view);
 		
-		/* TODO: menu view
 		// menu
-		$view = new \icore\views\BlockView;
-		$view->setData(array('name' => 'install-menu'));
+		$view = new \icore\views\TreeView;
+		$view->setData(array('name' => 'menu'));
+		$view->records = array(
+			array('href' => 'javascript:void(0)', 'title' => 'About',  'level' => 1),
+			array('href' => 'javascript:void(0)', 'title' => 'License', 'level' => 1),
+			array('href' => 'javascript:void(0)', 'title' => 'Check', 'level' => 1),
+			array('href' => 'javascript:void(0)', 'title' => 'Setting', 'level' => 1),
+			array('href' => 'javascript:void(0)', 'title' => 'Result', 'level' => 1),
+		);
 		$this->addView(1, $view);
-		*/
 
 		// copyright
 		$v = ICORE_VERSION;
@@ -41,14 +46,15 @@ EOF
 	public function index()
 	{
 		$view = new \icore\views\BlockView;
-		$view->setData(array('name' => 'install', 'title' => 'Introduction',
+		$view->setData(array('name' => 'install', 'title' => 'About',
 			'content' => <<<EOF
-			<p>iCore is a php framework/CMS for fast website building and <b>for future (good for html5,php5.4 etc)</b>.</p>
+			<p>iCore is a loose php framework/CMS for fast website building (<b>considering html5,php5.4 etc)</b>).</p>
 			<p>It is something like drupal, but small and simple.</p>
 			<br />
-			<p>It begins from 2007 (maybe, i forget), a simple php framework called Coto. But it was never really used.</p>
-			<p>When touch drupal, the idea of a "simple drupal" comes up. But it still remains a hard work.</p>
-			<p>After finish a simple project, i merged all together. That is the framework you see, or you can call it "iCore CMS".</p>
+			<p>It begins from 2007 (i forgot), a simple php framework called Coto. But never published.</p>
+			<p>After touch drupal, the idea of "simple drupal" comes out. But it still remains a lot of things to do.</p>
+			
+			<p>And now i merged everythings together. That is the framework you see, or you can call it "iCore CMS".</p>
 EOF
 		, 'links' => array(array('href' => url(null, null, 'license'), 'class' => 'more', 'title' => 'license'))
 		));
@@ -78,42 +84,52 @@ EOF
 
 	public function check()
 	{
-		/* TODO: grid view
-		$options = array();
-		$options['headers'] = array('title' => 'Title', 'result' => 'Result', 'required' => 'Required');
-		$options['records'] = array();
+		$view = new \icore\views\GridView;	
+		
+		$view->title = 'Checking';
+		$view->headers = array('title' => 'Title', 'result' => 'Result', 'required' => 'Required');
+		$view->records = array();
 
-		$item = & $options['records'][];
+		/*
+		$item = & $view->records[];
 		$item['title'] = 'OS';
 		$item['result'] = PHP_OS;
 		$item['required'] = '*nix like';
+		*/
 
-		$item = & $options['records'][];
+		$item = & $view->records[];
 		$item['title'] = 'PHP Version';
 		$item['result'] = PHP_VERSION;
 		$item['required'] = '>=5.3';
 
 		// short open tag before 5.4
+		if (!version_compare(PHP_VERSION, '5.4', '>='))
+		{
+			$item = & $view->records[];
+			$item['title'] = 'Short Open Tag';
+			$item['result'] = ini_get('short_open_tag') ? 'on' : 'off';
+			$item['required'] = 'on';
+		}
 
-		$item = & $options['records'][];
+		$item = & $view->records[];
 		$item['title'] = 'var/config';
 		$item['result'] = is_writable(dirname(CONFIG_FILE)) ? 'writable' : 'not writable';
 		$item['required'] = 'writable';
 
 		foreach(array('pdo', 'pdo_mysql', 'json', 'gd') as $ext)
 		{
-			$item = & $options['records'][];
+			$item = & $view->records[];
 			$item['title'] = $ext;
-			$item['result'] = extension_loaded($ext) ? 'Installed' : 'Not Installed';
+			$item['result'] = extension_loaded($ext) ? 'installed' : 'not installed';
 			$item['required'] = 'required';
 		}
-		
-		$view = new \icore\views\BlockView;
-		$view->name = 'install-check';
-		$view->title = 'Checking';
-		$view->data = $options;
-		$this->addView(2, $view);	
-		*/
+
+		$view->links = array(
+			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'prev'),	
+			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'settings')			
+		);
+
+		$this->addView(2, $view);
 	}
 
 	public function setting()

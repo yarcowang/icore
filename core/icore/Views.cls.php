@@ -23,9 +23,10 @@ abstract class Views extends SingletonClass
 		$this->name = '';
 	}
 
-	public function __get($key)
+	public function & __get($key)
 	{
-		return isset($this->_data[$key]) ? $this->_data[$key] : null;
+		return $this->_data[$key];
+		// return isset($this->_data[$key]) ? $this->_data[$key] : null;
 	}
 
 	public function __set($key, $value)

@@ -1,0 +1,67 @@
+<div class="grid_4">
+	<div class="block block-<?= $this->name; ?>">
+		<div class="block-header"><?= $this->title; ?></div>
+		<div class="block-body">
+		<?php
+			// stack
+			$levels = array();
+			// href, region, module, action, title, level
+			foreach($this->records as $item)
+			{
+				if ($level = end($levels))
+				{
+					if ($level === $item['level'])
+					{
+		?>
+			</li>
+			<li><a href="<?php if(!empty($item['href'])) print $item['href']; else print url($item['region'], $item['module'], $item['action']); ?>"><?= $item['title']; ?></a>
+		<?php
+					}
+					else if ($level < $item['level'])
+					{
+		?>
+			<ul class="level-<?= $item['level']; ?>">
+			<li><a href="<?php if(!empty($item['href'])) print $item['href']; else print url($item['region'], $item['module'], $item['action']); ?>"><?= $item['title']; ?></a>
+		<?php
+						$levels[] = $item['level'];
+					}
+					else
+					{
+		?>
+			</li>
+			</ul>
+			<li><a href="<?php if(!empty($item['href'])) print $item['href']; else print url($item['region'], $item['module'], $item['action']); ?>"><?= $item['title']; ?></a>
+		<?php
+						array_pop($levels);
+					}
+				}
+				else
+				{
+					// first element
+		?>
+			<ul class="level-<?= $item['level']; ?>">
+			<li><a href="<?php if(!empty($item['href'])) print $item['href']; else print url($item['region'], $item['module'], $item['action']); ?>"><?= $item['title']; ?></a>
+		<?php
+					$levels[] = $item['level'];
+				}
+			}
+
+			for($n = count($levels); $n > 0; $n--)
+			{
+		?>
+			</ul>
+		<?php
+			}
+		?>
+		</div>
+		<div class="block-footer">
+			<!-- links -->
+			<?php foreach($this->links as $link) { ?>
+				<a href="<?= $link['href']; ?>" class="<?= $link['class']; ?>"><?= $link['title']; ?></a>	
+			<?php } ?>
+			<span class="msg">
+				<?= $this->msg; ?>
+			</span>
+		</div>
+	</div>
+</div>

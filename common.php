@@ -1,6 +1,6 @@
 <?php
 // icore comm for driver
-if (!defined('DRIVER_FILE'))
+if (!defined('DRIVER_URI'))
 {
 	die('cant be accessed directly');
 }
@@ -13,7 +13,7 @@ define('ICORE_CLASS_EXT', '.cls.php');
 define('ROOT_DIR', __DIR__);
 define('ICORE_CORE', ROOT_DIR . '/core');
 define('MODULES_DIR', ROOT_DIR . '/modules');
-define('THEMES_DIR', dirname(DRIVER_FILE) . '/themes');
+define('THEMES_DIR', DRIVER_DIR . '/themes');
 
 // autoload
 set_include_path(MODULES_DIR . PATH_SEPARATOR . ICORE_CORE . PATH_SEPARATOR . get_include_path());
