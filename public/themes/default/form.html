@@ -1,0 +1,29 @@
+<form name="<?= $this->name; ?>" id="<?= $this->name; ?>"<?php if ($this->action !== "") { ?> action="<?= $this->action; ?>"<?php } ?> method="<?= $this->method; ?>" enctype="<?= $this->enctype; ?>">
+	<div class="grid_4">
+		<div class="block block-<?= $this->name; ?>">
+			<div class="block-header"><?= $this->title; ?></div>
+			<div class="block-body">
+			<?php
+				foreach($this->_model->fields as $field)
+				{
+			?>
+				<div>
+					<span><?= ucfirst($field); ?></span>
+					<span><?= $this->_model->ui($field); ?></span>
+				</div>
+			<?php
+				}
+			?>
+			</div>
+			<div class="block-footer">
+				<!-- links -->
+				<?php foreach($this->links as $link) { ?>
+					<a href="<?= $link['href']; ?>" class="<?= $link['class']; ?>"><?= $link['title']; ?></a>	
+				<?php } ?>
+				<span class="msg">
+					<?= $this->msg; ?>
+				</span>
+			</div>
+		</div>
+	</div>
+</form>

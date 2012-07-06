@@ -31,7 +31,8 @@ class Model implements \ArrayAccess
 		$this->name = $name;
 		$this->loadModel();
 
-		$this->_db = DBManager::get()->getDbByFlag('ro');
+		if ($db = Application::get()->db)
+			$this->_db = $db->getDbByFlag('ro');
 	}
 
 	protected function loadModel()
@@ -113,7 +114,7 @@ class Model implements \ArrayAccess
 	public function ui($field, $default = '', $callback = 'html')
 	{
 		$types = Types::get();
-		return call_user_func_array(array($types, $callback), array($field, $this->_fieldType[$field], $this->_fieldExtra[$field], $default));
+		return call_user_func_array(array($types, $callback), array($field, $this->fieldType[$field], $this->fieldExtra[$field], $default));
 	}
 	
 	/**

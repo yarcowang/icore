@@ -3,6 +3,7 @@
 namespace icore\views;
 
 use icore\Views;
+use icore\Model;
 
 class PageView extends Views
 {
@@ -36,6 +37,16 @@ class PageView extends Views
 
 		// regions
 		$this->regions = array();
+	}
+
+	public function setModel(Model $model)
+	{
+		die('PageView no need Model');
+	}
+
+	public function getModel()
+	{
+		die('PageView no need Model');
 	}
 
 	public function getTpl()

@@ -3,6 +3,7 @@
 namespace icore\views;
 
 use icore\Views;
+use icore\Model;
 
 class BlockView extends Views
 {
@@ -15,6 +16,11 @@ class BlockView extends Views
 		$this->content = '';
 		$this->links = array();
 		$this->msg = '';
+	}
+
+	public function setModel(Model $model)
+	{
+		// TODO: set model for BlockView
 	}
 
 	public function getTpl()

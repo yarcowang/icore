@@ -11,6 +11,9 @@ abstract class Views extends SingletonClass
 	// internal saved data 
 	protected $_data;
 
+	// model
+	protected $_model;
+
 	// class static methods
 	protected static function _file_()
 	{
@@ -82,6 +85,17 @@ abstract class Views extends SingletonClass
 		}
 
 		return $t;
+	}
+
+	// set a model
+	public function setModel(Model $model)
+	{
+		$this->_model = $model;
+	}
+	// get a model
+	public function getModel()
+	{
+		return $this->_model;
 	}
 
 	// get template

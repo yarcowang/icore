@@ -120,6 +120,7 @@ EOF
 
 		$view->links = array(
 			array('href' => url(null, null, 'license'), 'class' => 'more', 'title' => 'prev'),	
+			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'reload'),
 			array('href' => url(null, null, 'setting'), 'class' => 'more', 'title' => 'settings')			
 		);
 
@@ -128,11 +129,23 @@ EOF
 
 	public function setting()
 	{	
+		$view = new \icore\views\FormView;
+
+		$view->name = 'install';
+		$view->title = 'Settings';
+
+		$model = new \icore\Model('setting');
+		$view->setModel($model);
+
 		/* TODO: form view
 		$view = new \icore\views\BlockView;
 		$view->name = 'install-settings';
-		$this->addView(2, $view);	
 		*/
+		$view->links = array(
+			array('href' => url(null, null, 'check'), 'class' => 'more', 'title' => 'checking'),	
+			array('href' => 'javascript:$(\'.submit\').closest(\'form\').submit();', 'class' => 'more submit', 'title' => 'submit')			
+		);
+		$this->addView(2, $view);	
 	}
 
 	public function result()

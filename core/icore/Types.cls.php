@@ -11,6 +11,13 @@ class Types extends SingletonClass
 	protected $_html = array();
 	// TODO: protected $_html5 = array();
 
+	// class static methods
+	protected static function & _instance_()
+	{
+		static $instance;
+		return $instance;
+	}
+
 	public function getTypes()
 	{
 		return $this->_types;
@@ -87,54 +94,32 @@ class Types extends SingletonClass
 
 		// html
 		$html = & $this->_html;
-		$html['enum'] = create_function('$n,$e="",$d=""', '$e=explode(",");
+		$html['enum'] = create_function('$n,$e="",$d=""', '$e=explode(",", $e);
 $opts = "";
 foreach($e as $i)
 {
 	$opts .= sprintf("\t<option value=\"%s\"%s>%s</option>\n", htmlspecialchars($i), $d == $i ? " selected=\"selected\"" : "", htmlspecialchars($i));
 }
-return sprintf(<<<EOF
-<select name="%s" id="%s">
-	%s
-</select>\n
-EOF, $n, $n, $opts);');
+return sprintf("<select name=\"%s\" id=\"%s\">\n%s\n</select>\n", $n, $n, $opts);');
 		$html['file'] = create_function('$n,$e="",$d=""', ''); // TODO: file 
 		$html['float'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 20;
-return sprintf(<<<EOF
-<input type="text" name="%s" id="%s" value="%s" size="20" maxlength="%d" />\n
-EOF, $n, $n, $d, %e);');
+return sprintf("<input type=\"text\" name=\"%s\" id=\"%s\" value=\"%s\" size=\"%d\" maxlength=\"%d\" />\n", $n, $n, $d, $e > 20 ? 20 : $e, $e);');
 		$html['image'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: image
 		$html['int'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 20;
-return sprintf(<<<EOF
-<input type="text" name="%s" id="%s" value="%s" size="20" maxlength="%d" />\n
-EOF, $n, $n, $d, %e);');
-		$html['mail'] = create_function('$n, $e="", $d=""', 'return sprintf(<<<EOF
-<input type="text" name="%s" id="%s" value="%s" size="40" maxlength="40" />\n
-EOF, $n, $n, htmlspecialchars($d));');
+return sprintf("<input type=\"text\" name=\"%s\" id=\"%s\" value=\"%s\" size=\"%d\" maxlength=\"%d\" />\n", $n, $n, $d, $e > 20 ? 20 : $e, $e);');
+		$html['mail'] = create_function('$n, $e="", $d=""', 'return sprintf("<input type=\"text\" name=\"%s\" id=\"%s\" value=\"%s\" size=\"%d\" maxlength=\"40\" />\n", $n, $n, htmlspecialchars($d), $e > 20 ? 20 : $e);');
 		$html['name'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 40;
-return sprintf(<<<EOF
-<input type="text" name="%s" id="%s" value="%s" size="40" maxlength="%d" />\n
-EOF, $n, $n, $d, %e);');
+return sprintf("<input type=\"text\" name=\"%s\" id=\"%s\" value=\"%s\" size=\"%d\" maxlength=\"%d\" />\n", $n, $n, $d, $e > 20 ? 20 : $e, $e);');
 		$html['owner'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: owner
 		$html['password'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 40;
-return sprintf(<<<EOF
-<input type="password" name="%s" id="%s" size="40" maxlength="%d" />\n
-EOF, $n, $n, %e);');
+return sprintf("<input type=\"password\" name=\"%s\" id=\"%s\" size=\"%d\" maxlength=\"%d\" />\n", $n, $n, $e > 20 ? 20 : $e, $e);');
 		$html['ref'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: ref
 		$html['string'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 200;
-return sprintf(<<<EOF
-<input type="text" name="%s" id="%s" value="%s" size="80" maxlength="%d" />\n
-EOF, $n, $n, htmlspecialchars($d), %e);');
-		$html['text'] = create_function('$n, $e="", $d=""', 'return sprintf(<<<EOF
-<textarea name="%s" id="%s" cols="80" rows="%d">
-$e
-</textarea>\n
-EOF, $n, $n, $e, htmlspecialchars($d));');
+return sprintf("<input type=\"text\" name=\"%s\" id=\"%s\" value=\"%s\" size=\"%d\" maxlength=\"%d\" />\n", $n, $n, htmlspecialchars($d), $e > 80 ? 80 : $e, $e);');
+		$html['text'] = create_function('$n, $e="", $d=""', 'return sprintf("<textarea name=\"%s\" id=\"%s\" cols=\"80\" rows=\"%d\">\n%s\n</textarea>\n", $n, $n, $e, htmlspecialchars($d));');
 		$html['time'] = create_function('$n, $e="", $d=""', 'return true;'); // TODO: time
 		$html['title'] = create_function('$n, $e="", $d=""', 'if (empty($e)) $e = 200;
-return sprintf(<<<EOF
-<input type="text" name="%s" id="%s" value="%s" size="80" maxlength="%d" />\n
-EOF, $n, $n, htmlspecialchars($d), %e);');
+return sprintf("<input type=\"text\" name=\"%s\" id=\"%s\" value=\"%s\" size=\"80\" maxlength=\"%d\" />\n", $n, $n, htmlspecialchars($d), $e);');
 		$html['tree'] = create_function('$v,$e=""', 'return true;'); // TODO: tree
 
 		/*

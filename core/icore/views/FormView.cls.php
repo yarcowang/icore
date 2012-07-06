@@ -5,7 +5,7 @@ namespace icore\views;
 use icore\Views;
 use icore\Model;
 
-class TreeView extends Views
+class FormView extends Views
 {
 	public function __construct()
 	{
@@ -13,20 +13,26 @@ class TreeView extends Views
 
 		// default attributes 
 		$this->title = '';
-		$this->records = array();	
 		$this->links = array();
 		$this->msg = '';
+
+		// form related
+		$this->action = '';
+		$this->method = 'post';
+		$this->enctype = 'application/x-www-form-urlencoded';
 	}
 
 	public function setModel(Model $model)
 	{
-		// TODO: set model for TreeView
+		// TODO: set model for FormView
+
+		parent::setModel($model);
 	}
 
 	public function getTpl()
 	{
 		// TODO: cache
-		return $this->getTplByName('tree');
+		return $this->getTplByName('form');
 	}
 
 	public function get_contents()

@@ -3,6 +3,7 @@
 namespace icore\views;
 
 use icore\Views;
+use icore\Model;
 
 class GridView extends Views
 {
@@ -16,6 +17,11 @@ class GridView extends Views
 		$this->records = array();
 		$this->links = array();
 		$this->msg = '';
+	}
+
+	public function setModel(Model $model)
+	{
+		// TODO: set model for GridView
 	}
 
 	public function getTpl()
